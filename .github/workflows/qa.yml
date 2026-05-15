@@ -21,8 +21,7 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
           prompt: $(cat qa-prompt-title31.md)
-          allowed_tools: "mcp__playwright__browser_navigate,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_resize,Write"
-          mcp_config: '{"mcpServers":{"playwright":{"command":"npx","args":["@playwright/mcp@latest","--headless"]}}}'
+          claude_args: "--allowedTools mcp__playwright__browser_navigate,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_resize,Write --mcp-config '{\"mcpServers\":{\"playwright\":{\"command\":\"npx\",\"args\":[\"@playwright/mcp@latest\",\"--headless\"]}}}'"
 
   qa-taxforms:
     if: contains(github.event.pull_request.labels.*.name, 'qa-verify')
@@ -35,5 +34,4 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
           prompt: $(cat qa-prompt-taxforms.md)
-          allowed_tools: "mcp__playwright__browser_navigate,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_resize,Write"
-          mcp_config: '{"mcpServers":{"playwright":{"command":"npx","args":["@playwright/mcp@latest","--headless"]}}}'
+          claude_args: "--allowedTools mcp__playwright__browser_navigate,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_resize,Write --mcp-config '{\"mcpServers\":{\"playwright\":{\"command\":\"npx\",\"args\":[\"@playwright/mcp@latest\",\"--headless\"]}}}'"
