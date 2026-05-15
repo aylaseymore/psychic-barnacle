@@ -10,17 +10,36 @@ permissions:
   id-token: write
 
 jobs:
-  qa:
+  qa-title31:
+    if: contains(github.event.pull_request.labels.*.name, 'qa-verify')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Run Claude QA
+      - name: Run Title 31 QA
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
-          prompt: $(cat qa-prompt.md)
+          prompt: $(cat qa-prompt-title31.md)
           claude_args: >
             --allowedTools "mcp__playwright__browser_navigate,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_resize,Write"
             --mcp-config '{"mcpServers":{"playwright":{"command":"npx","args":["@playwright/mcp@latest","--headless"]}}}'
+
+  qa-taxforms:
+    if: contains(github.event.pull_request.labels.*.name, 'qa-verify')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Taxforms QA
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          show_full_output: true
+          prompt: $(cat qa-prompt-taxforms.md)
+          claude_args: >
+            --allowedTools "mcp__playwright__browser_navigate,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_resize,Write"
+            --mcp-config '{"mcpServers":{"playwright":{"command":"npx","args":["@playwright/mcp@latest","--headless"]}}}'
+EOFgit add .
+git commit -m "add detailed Title 31 and Taxforms QA prompts"
+git push origin main
+git push origin main
